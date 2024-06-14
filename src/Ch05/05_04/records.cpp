@@ -1,4 +1,5 @@
 #include "records.h"
+#include <iostream>
 
 Student::Student(int the_id, std::string the_name){
     id = the_id;
@@ -78,20 +79,36 @@ std::string StudentRecords::get_student_name(int sid) const{
     return students[i].get_name();
 }
 
-unsigned char StudentRecords::get_course_credits(int cid) const{
+Course StudentRecords::get_course(int cid) const{
     int j = 0;
     while (j < courses.size() && courses[j].get_id() != cid)
         j++;
-    return courses[j].get_credits();
+    return courses[j];
 }
 
 float StudentRecords::get_GPA(int sid) const{
     float points = 0.0f, credits = 0.0f;
     for (const Grade& grd : grades)
         if (grd.get_student_id() == sid){
-            unsigned char current_credits = get_course_credits(grd.get_course_id());
+            unsigned char current_credits = get_course(grd.get_course_id()).get_credits();
             credits += current_credits;
             points += get_num_grade(grd.get_grade()) * current_credits;
         }
     return (points / credits);
+}
+
+void StudentRecords::report_card(int sid){
+    // Print student name.
+    std::cout << "Student is: " << get_student_name(sid) << std::endl;
+    
+    // Print course names and letter grades.
+    for (Grade& g : grades){
+        if (g.get_student_id() == sid){
+            std::cout << "Course: " << get_course(g.get_course_id()).get_name() << std::endl;
+            std::cout << "Grade: " << g.get_grade() << std::endl;
+        }
+    }
+
+    // Print GPA
+    std::cout << "GPA: " << get_GPA(sid) << std::endl;
 }
