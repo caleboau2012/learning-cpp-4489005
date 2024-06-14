@@ -16,6 +16,7 @@ int main(){
 
     std::cout << " float: " << flt << std::endl;
     std::cout << " int32: " << sgn << std::endl;
+    std::cout << "uint32: " << unsgn << std::endl;
     std::cout << "uint32: " << (int32_t) unsgn << std::endl;
     
     std::cout << std::endl << std::endl;
